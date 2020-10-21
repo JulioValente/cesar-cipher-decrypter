@@ -52,20 +52,35 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
     }
 }
 
+void CAPSLOCK(char *string){
+	for(char *p = string; *(p)!='\0';p++){
+		*p = toupper(*p);
+	}
+}
+
 int verificaMensagem(char *mensagem){ 
 	FILE *arquivo;
 	char palavra[50];
+	int tamanho;
 	
 	arquivo = fopen("palavras.txt", "r");
 
-	fgets(palavra, 50, arquivo);
-	while(palavra != NULL && palavra != EOF){		
+	while(fgets(palavra, 50, arquivo) != NULL){	
+		tamanho = 0;
+		char *p = palavra;
+		for(;*(p)!='\0' && *(p)!='\n';p++){
+			*p = toupper(*p);
+			tamanho++;
+		}
+		palavra[tamanho] = '\0';		
+
 		if(!strcmp(palavra, mensagem)){
+			fclose(arquivo);
 			return 1;
 		}
-		fgets(palavra, 50, arquivo);
 	}
 
+	fclose(arquivo);
 	return 0;
 
 }
@@ -73,7 +88,7 @@ int verificaMensagem(char *mensagem){
 void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
     int i;
     for(i=1;i<26;i++){
-        rodaMensagem(mensagem, tamanho, i);
+        rodaMensagem(mensagem, tamanho, i);        
 
         if(verificaMensagem(mensagem)){
             break;
@@ -278,11 +293,15 @@ int main(){
 					        return 1;
 					    }					
 
-					    decod(mensagem); //decodifica a mensagem
+					    //cria uma varíavel para a segunda decodificação e atribui pra ela a mensagem original
+					    char mensagem2[100];
+					    strcpy(mensagem2, mensagem);
+
+					   	decod(mensagem); //primeira possível decodificação
 					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
 
-					    decifraMensagem(mensagem, mensagemTamanho); //decodifica a mensagem
-					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem);
+					    decifraMensagem(mensagem2, mensagemTamanho); //segunda possível decodificação
+					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem2);
 					
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
