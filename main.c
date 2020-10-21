@@ -150,6 +150,7 @@ int main(){
     char nomeArquivo[30];
     char temp[30];
     char mensagem[100];
+    char mensagem2[100];
     int mensagemTamanho=0;
     char c;
 	int rot=0;
@@ -205,7 +206,8 @@ int main(){
 					    printf("Digite a chave da mensagem: ");
 					    scanf("%d", &rot);
 
-						rodaMensagemAntHorario(mensagem, mensagemTamanho, rot);
+					    //decodifica a mensagem
+					    rodaMensagemAntHorario(mensagem, mensagemTamanho, rot);						
 					
 						/*salvando a mensagem*/
 					    strcat(nomeArquivo, "_dec.txt"); //adiciona o formato do arquivo.
@@ -220,7 +222,7 @@ int main(){
 					        return 1;
 					    }
 					
-					    fprintf(arquivo, "%s", mensagem);
+					    fprintf(arquivo, "Mensagem decodificada: %s", mensagem);
 					
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
@@ -284,9 +286,13 @@ int main(){
 					        return 1;
 					    }
 					
+
+						strcpy(mensagem2, mensagem);
+
+						//decodifica a mensagem
 						decod(mensagem);
-					
-					
+						decifraMensagem(mensagem2, mensagemTamanho);
+						
 						/*salvando a mensagem*/
 					    strcat(nomeArquivo, "_dec.txt"); //adiciona o formato do arquivo.
 					    arquivo = fopen(nomeArquivo, "w+t");
@@ -298,9 +304,10 @@ int main(){
 					        printf("Digite qualquer tecla para sair.");
 					        getch();
 					        return 1;
-					    }
-					
-					    fprintf(arquivo, "%s", mensagem);
+					    }					
+
+					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
+					    fprintf(arquivo, "\n\nSegunda possível mensagem:%s", mensagem2);
 					
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
