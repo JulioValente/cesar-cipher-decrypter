@@ -52,54 +52,22 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
     }
 }
 
-int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retorna v para vogal e s para consoante.
-    return (c=='A' || c=='E' || c=='I' || c=='O' || c=='U')?'v':'c';
-}
-
-int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
-    int i;
-    int j;
-    int k;
-    int tamMaxEstruturaMensagem = 12 + 2;
-    char estruturaMensagem[tamMaxEstruturaMensagem + 1];
-    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vvc", "cccv", "cccvv", "cccvvv"}; //possíveis estruturações
-    int nEstruturacoes = 10;
-
-    /*armazena os primeiros caracteres da mensagem*/
-    if(tamanho<tamMaxEstruturaMensagem){
-        for(i=0;i<tamanho;i++){
-            estruturaMensagem[i] = verificaChar(mensagem[i]);
-        }
-        estruturaMensagem[tamanho] = '\0';
-    }else{
-        for(i=0;i<tamMaxEstruturaMensagem;i++){
-        	estruturaMensagem[i] = verificaChar(mensagem[i]);
-        }
-        estruturaMensagem[tamMaxEstruturaMensagem] = '\0';
-    }
-    /**/
-
-    char *vogaisNoInicio[] = {"", "v", "vv"};
-
-    /*verifica a estruturação das primeiras letras da mensagem*/    
-    for(int k=0;k<3; k++){
-    	for(i=0;i<nEstruturacoes;i++){
-        	for(int j=0;j<nEstruturacoes;j++){
-	            char temp[tamMaxEstruturaMensagem + 1];
+int verificaMensagem(char *mensagem){ 
+	FILE *arquivo;
+	char palavra[50];
 	
-	            strcpy(temp,vogaisNoInicio[k]);
-	            strcat(temp,estruturacoes[i]);
-	            strcat(temp, estruturacoes[j]);
-	
-	            if(!strcmp(estruturaMensagem, temp)){
-                	return 1;
-            	}
-        	}
-    	}
-    }
+	arquivo = fopen("palavras.txt", "w+t");
 
-    return 0;
-    /**/
+	fgets(palavra, 50, arquivo);
+	while(palavra != NULL || palavra != EOF){
+		if(strcmp(palavra, mensagem)){
+			return 1;
+		}
+		fgets(palavra, 50, arquivo);
+	}
+
+	return 0;
+
 }
 
 void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
@@ -107,7 +75,7 @@ void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automati
     for(i=1;i<26;i++){
         rodaMensagem(mensagem, tamanho, i);
 
-        if(verificaMensagem(mensagem, tamanho)){
+        if(verificaMensagem(mensagem)){
             break;
         }
     }
