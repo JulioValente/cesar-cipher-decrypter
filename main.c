@@ -79,7 +79,7 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
     }
     /**/
 
-    char *vogaisNoInicio[] = {"", "v", "vv"}
+    char *vogaisNoInicio[] = {"", "v", "vv"};
 
     /*verifica a estruturação das primeiras letras da mensagem*/    
     for(int k=0;k<3; k++){
