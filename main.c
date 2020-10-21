@@ -41,7 +41,8 @@ void rodaMensagem(char *mensagem, int tamanho, int numRotacoes){ //função para
 }
 
 void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //função para deslocar os caracteres da mensagem.
-    for(int i=0; i<tamanho;i++){
+	int i;
+    for(i=0; i<tamanho;i++){
         mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 - 'Z';
     }
 }
@@ -62,7 +63,7 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
         }
         estruturaMensagem[tamanho] = '\0';
     }else{
-        for(int i=0;i<10;i++){
+        for(i=0;i<10;i++){
 
         }
         estruturaMensagem[10] = '\0';
@@ -85,7 +86,7 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
 }
 
 void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
-    int i
+    int i;
     for(i=1;i<26;i++){
         rodaMensagem(mensagem, tamanho, i);
 
@@ -146,7 +147,7 @@ int main(){
     char mensagem[100];
     int mensagemTamanho=0;
     char c;
-    
+
     setlocale(LC_ALL, "");
     
     /*rodando o programa*/
