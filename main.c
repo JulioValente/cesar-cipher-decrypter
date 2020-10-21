@@ -53,13 +53,13 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
 }
 
 int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retorna v para vogal e s para consoante.
-    return (c=='A' || c=='E' || c=='I' || c=='O' || c=='U')?'v':'s';
+    return (c=='A' || c=='E' || c=='I' || c=='O' || c=='U')?'v':'c';
 }
 
 int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
     int i;
     char estruturaMensagem[11];
-    char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possíveis estruturações
+    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vc", "cccv", "cccvv", "cccvvv", "vcc", "vccc"}; //possíveis estruturações
 
     /*armazena os primeiros caracteres da mensagem*/
     if(tamanho<10){
