@@ -57,6 +57,9 @@ int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retor
 int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
     char estruturaMensagem[11];
     int i;
+    int j;
+    char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possíveis estruturações
+    char temp[10];
 	
     /*armazena os primeiros caracteres da mensagem*/
     if(tamanho<10){
@@ -73,10 +76,9 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
     /**/
 
     /*verifica a estruturação das primeiras letras da mensagem*/
-    char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possíveis estruturações
+    
     for(i=0;i<9;i++){
-        for(int j=0;j<9;j++){
-            char temp[10];
+        for(j=0;j<9;j++){
             strcpy(temp,estruturacoes[i]);
             strcat(temp, estruturacoes[j]);
             if(!strcmp(estruturaMensagem, temp)){
