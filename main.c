@@ -146,8 +146,7 @@ int main(){
     char mensagem[100];
     int mensagemTamanho=0;
     char c;
-
-<<<<<<< Updated upstream
+    
     setlocale(LC_ALL, "");
     
     /*rodando o programa*/
