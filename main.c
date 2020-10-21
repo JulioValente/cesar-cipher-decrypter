@@ -4,7 +4,9 @@
 #include <string.h>
 
 void nl(int y){  //função para novas linhas.
-    for(int i=0;i<y;i++){
+    int i;
+	
+    for(i=0;i<y;i++){
         printf("\n");
     }
 }
