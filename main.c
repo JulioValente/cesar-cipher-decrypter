@@ -147,6 +147,7 @@ int main(){
     int mensagemTamanho=0;
     char c;
 
+<<<<<<< Updated upstream
     setlocale(LC_ALL, "");
     
     /*rodando o programa*/
@@ -245,4 +246,13 @@ int main(){
 		}	
 	}
 	/**/
+=======
+
+    //fim do programa.
+    nl(2);
+    printf("Digite qualquer tecla para sair.");
+    getch();
+
+	return 1;
+>>>>>>> Stashed changes
 }
