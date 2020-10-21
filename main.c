@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
+#include <string.h>
 
 void nl(int y){  //função para novas linhas.
     for(int i=0;i<y;i++){
@@ -34,13 +35,14 @@ void cabecalho (){ //função do cabeçalho.
 }
 
 void rodaMensagem(char *mensagem, int tamanho, int numRotacoes){ //função para deslocar os caracteres da mensagem.
-    for(int i=0; i<tamanho;i++){
+    int i;
+    for(i=0; i<tamanho;i++){
         mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 + 'A';
     }
 }
 
 void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //função para deslocar os caracteres da mensagem.
-	int i;
+    int i;
     for(i=0; i<tamanho;i++){
         mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 - 'Z';
     }
@@ -52,10 +54,11 @@ int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retor
 
 int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
     char estruturaMensagem[11];
-
+    int i;
+	
     /*armazena os primeiros caracteres da mensagem*/
     if(tamanho<10){
-        for(int i=0;i<tamanho;i++){
+        for(i=0;i<tamanho;i++){
             estruturaMensagem[i] = verificaChar(mensagem[i]);
         }
         estruturaMensagem[tamanho] = '\0';
@@ -69,7 +72,7 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
 
     /*verifica a estruturação das primeiras letras da mensagem*/
     char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possíveis estruturações
-    for(int i=0;i<9;i++){
+    for(i=0;i<9;i++){
         for(int j=0;j<9;j++){
             char temp[10];
             strcpy(temp,estruturacoes[i]);
@@ -97,11 +100,55 @@ void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automati
     }
 }
 
+char decod(char *msg){
+	int i=0;
+
+	while(msg[i]!='\0'){
+
+		/*decodificando apenas letras*/
+		if(msg[i]>='A' && msg[i]<='Z'){
+			/*quando a letra voltando 3 casas é "menor" que A*/
+			if(msg[i]-3<'A'){
+				msg[i]=('X'-'A')+msg[i]; /*somando a "menor letra" possível com a distância entre a mesma e seu substituta*/
+			}else{ /*para as demais letras*/
+				msg[i]= msg[i] - 3;
+			}
+		}
+
+		i++;
+	}
+
+	return;
+}
+
+char menu(){
+	system("cls");
+	
+	cabecalho();
+	/**/
+	printf(" opções:");
+	nl(1);
+	printf(" ====//====//====//====");
+	nl(2);
+	printf(" 1. decodificação pelo usuário");
+	nl(2);
+	printf(" 2. decodificação automática");
+	nl(2);
+	printf(" 3. sair do programa");
+	nl(2);
+	printf("Digite uma opção: ");
+	/*digitando uma opção*/
+	
+	return getch();
+	
+}
+
 int main(){
     FILE *arquivo;
     char nomeArquivo[30];
     char mensagem[100];
     int mensagemTamanho=0;
+    char c;
 
     setlocale(LC_ALL, "");
 
@@ -126,9 +173,7 @@ int main(){
 
 
     /*armazena a mensagem do arquivo*/
-
-    char c;
-
+	
     setlocale(LC_ALL, "");
     
     /*rodando o programa*/
