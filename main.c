@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <locale.h>
 
-void nl(int y){  //função para novas linhas.
+void nl(int y){  //funÃ§Ã£o para novas linhas.
     for(int i=0;i<y;i++){
         printf("\n");
     }
 }
 
-void tabul (int t){ //função para tabulações.
+void tabul (int t){ //funÃ§Ã£o para tabulaÃ§Ãµes.
 	int i;
 
 	for(i=0; i<t; i++){
@@ -16,7 +16,7 @@ void tabul (int t){ //função para tabulações.
 	}
 }
 
-void cabecalho (){ //função do cabeçalho.
+void cabecalho (){ //funÃ§Ã£o do cabeÃ§alho.
 	printf("*================================================================================================================*");
 	printf("\n\t\t\t\tdecodificador");
 	printf("\n*================================================================================================================*");
@@ -29,21 +29,27 @@ void cabecalho (){ //função do cabeçalho.
 
 	printf(" ->");
 	tabul(3);
-	printf("não pode ser escrito com caracteres especiais");
+	printf("nÃ£o pode ser escrito com caracteres especiais");
 	nl(3);
 }
 
-void rodaMensagem(char *mensagem, int tamanho, int numRotacoes){ //função para deslocar os caracteres da mensagem.
+void rodaMensagem(char *mensagem, int tamanho, int numRotacoes){ //funÃ§Ã£o para deslocar os caracteres da mensagem.
     for(int i=0; i<tamanho;i++){
         mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 + 'A';
     }
 }
 
-int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retorna v para vogal e s para consoante.
+void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //funÃ§Ã£o para deslocar os caracteres da mensagem.
+    for(int i=0; i<tamanho;i++){
+        mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 - 'Z';
+    }
+}
+
+int verificaChar(char c){ //verifica se o caractere Ã© vogal ou consoante. Retorna v para vogal e s para consoante.
     return (c=='A' || c=='E' || c=='I' || c=='O' || c=='U')?'v':'s';
 }
 
-int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
+int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerÃªncia da mensagem. Retrona 1 se a mensagem Ã© coerente e 0 caso contrÃ¡rio.
     char estruturaMensagem[11];
 
     /*armazena os primeiros caracteres da mensagem*/
@@ -60,8 +66,8 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da men
     }
     /**/
 
-    /*verifica a estruturação das primeiras letras da mensagem*/
-    char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possíveis estruturações
+    /*verifica a estruturaÃ§Ã£o das primeiras letras da mensagem*/
+    char *estruturacoes[] = {"sv", "svv", "svvv", "ssv", "ssvv", "ssvvv", "vs", "vss", "vsss"}; //possÃ­veis estruturaÃ§Ãµes
     for(int i=0;i<9;i++){
         for(int j=0;j<9;j++){
             char temp[10];
@@ -106,7 +112,7 @@ int main(){
 
     if(arquivo == NULL){ //verifica se o arquivo foi aberto.
         nl(1);
-        printf("Não foi possível abrir o arquivo.");
+        printf("NÃ£o foi possÃ­vel abrir o arquivo.");
         nl(2);
         printf("Digite qualquer tecla para sair.");
         getch();
@@ -130,7 +136,7 @@ int main(){
 
     if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
         nl(2);
-        printf("Não foi possível fechar o arquivo.");
+        printf("NÃ£o foi possÃ­vel fechar o arquivo.");
         nl(2);
         printf("Digite qualquer tecla para sair.");
         getch();
