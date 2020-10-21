@@ -58,10 +58,12 @@ int verificaChar(char c){ //verifica se o caractere é vogal ou consoante. Retor
 
 int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da mensagem. Retrona 1 se a mensagem é coerente e 0 caso contrário.
     int i;
+    int j;
+    int k;
     int tamMaxEstruturaMensagem = 12;
     char estruturaMensagem[tamMaxEstruturaMensagem + 1];
-    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vc", "cccv", "cccvv", "cccvvv", "vcc", "vccc"}; //possíveis estruturações
-    int nEstruturacoes = 12;
+    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vc", "vvc", "cccv", "cccvv", "cccvvv"}; //possíveis estruturações
+    int nEstruturacoes = 11;
 
     /*armazena os primeiros caracteres da mensagem*/
     if(tamanho<tamMaxEstruturaMensagem){
@@ -77,17 +79,25 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
     }
     /**/
 
-    /*verifica a estruturação das primeiras letras da mensagem*/
-    for(i=0;i<nEstruturacoes;i++){
-        for(int j=0;j<nEstruturacoes;j++){
-            char temp[tamMaxEstruturaMensagem + 1];
-            strcpy(temp,estruturacoes[i]);
-            strcat(temp, estruturacoes[j]);
-            if(!strcmp(estruturaMensagem, temp)){
-                return 1;
-            }
-        }
+    char *vogaisNoInicio[] = {"", "v", "vv"}
+
+    /*verifica a estruturação das primeiras letras da mensagem*/    
+    for(int k=0;k<3; k++){
+    	for(i=0;i<nEstruturacoes;i++){
+        	for(int j=0;j<nEstruturacoes;j++){
+	            char temp[tamMaxEstruturaMensagem + 1];
+	
+	            strcpy(temp,vogaisNoInicio[k]);
+	            strcat(temp,estruturacoes[i]);
+	            strcat(temp, estruturacoes[j]);
+	
+	            if(!strcmp(estruturaMensagem, temp)){
+                	return 1;
+            	}
+        	}
+    	}
     }
+
     return 0;
     /**/
 }
@@ -152,7 +162,6 @@ int main(){
     char nomeArquivo[30];
     char temp[30];
     char mensagem[100];
-    char mensagem2[100];
     int mensagemTamanho=0;
     char c;
 	int rot=0;
@@ -286,14 +295,7 @@ int main(){
 					        printf("Digite qualquer tecla para sair.");
 					        getch();
 					        return 1;
-					    }
-					
-
-						strcpy(mensagem2, mensagem);
-
-						//decodifica a mensagem
-						decod(mensagem);
-						decifraMensagem(mensagem2, mensagemTamanho);
+					    }										
 						
 						/*salvando a mensagem*/
 					    strcat(nomeArquivo, "_dec.txt"); //adiciona o formato do arquivo.
@@ -308,8 +310,11 @@ int main(){
 					        return 1;
 					    }					
 
+					    decod(mensagem); //decodifica a mensagem
 					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
-					    fprintf(arquivo, "\n\nSegunda possível mensagem:%s", mensagem2);
+
+					    decifraMensagem(mensagem, mensagemTamanho); //decodifica a mensagem
+					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem);
 					
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
