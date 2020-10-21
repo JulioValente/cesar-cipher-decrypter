@@ -60,10 +60,10 @@ int verificaMensagem(char *mensagem, int tamanho){ //Verifica a coerência da me
     int i;
     int j;
     int k;
-    int tamMaxEstruturaMensagem = 12;
+    int tamMaxEstruturaMensagem = 12 + 2;
     char estruturaMensagem[tamMaxEstruturaMensagem + 1];
-    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vc", "vvc", "cccv", "cccvv", "cccvvv"}; //possíveis estruturações
-    int nEstruturacoes = 11;
+    char *estruturacoes[] = {"cv", "cvv", "cvvv", "ccv", "ccvv", "ccvvv", "vvc", "cccv", "cccvv", "cccvvv"}; //possíveis estruturações
+    int nEstruturacoes = 10;
 
     /*armazena os primeiros caracteres da mensagem*/
     if(tamanho<tamMaxEstruturaMensagem){
