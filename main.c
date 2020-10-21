@@ -133,7 +133,7 @@ char menu(){
 	nl(2);
 	printf(" 3. sair do programa");
 	nl(2);
-	printf("Digite uma opção: ");
+	printf(" Digite uma opção: ");
 	/*digitando uma opção*/
 	
 	return getch();
