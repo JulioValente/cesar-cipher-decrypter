@@ -42,8 +42,13 @@ void rodaMensagem(char *mensagem, int tamanho, int numRotacoes){ //função para
 
 void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //função para deslocar os caracteres da mensagem.
 	int i;
+	
+	while(numRotacoes < 0){
+		numRotacoes+=26;
+	}
+
     for(i=0; i<tamanho;i++){
-        mensagem[i] = ((mensagem[i]-'A')+numRotacoes)%26 - 'Z';
+        mensagem[i] =  ((mensagem[i]-'A')+(26-numRotacoes))%26 + 'A';
     }
 }
 
@@ -147,15 +152,94 @@ int main(){
     char mensagem[100];
     int mensagemTamanho=0;
     char c;
+	int rot=0;
 
     setlocale(LC_ALL, "");
     
     /*rodando o programa*/
     while(1){
     	switch(menu()){
-    		case '1': 	system("cls");
-    					printf(" chabonga");
-    					getch();
+    		case '1': 	system("cls");    					
+						printf("Digite o nome do arquivo: ");
+					    nl(2);
+						scanf("%s", nomeArquivo);
+					
+						strcpy(temp, nomeArquivo); //copia o nome do arquivo para uma variável temporária.
+					    strcat(temp, ".txt"); //adiciona o formato do arquivo.
+					    arquivo = fopen(temp, "r");
+					
+					    if(arquivo == NULL){ //verifica se o arquivo foi aberto.
+					        nl(1);
+					        printf("Não foi possível abrir o arquivo.");
+					        nl(2);
+					        printf("Digite qualquer tecla para sair.");
+					        getch();
+					        return 1;
+					    }
+					
+					
+					    /*armazena a mensagem do arquivo*/
+					
+					    c = fgetc(arquivo);
+					    while(c!=EOF){
+					        if(c >= 'A' && c <= 'z'){
+					            mensagem[mensagemTamanho] = toupper(c);
+					            mensagemTamanho++;
+					        }
+					        c=fgetc(arquivo);
+					    }
+					    mensagem[mensagemTamanho] = '\0';
+					
+					    /**/
+					
+					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
+					        nl(2);
+					        printf("Não foi possível fechar o arquivo.");
+					        nl(2);
+					        printf("Digite qualquer tecla para sair.");
+					        getch();
+					        return 1;
+					    }
+					
+						system("cls");
+					    printf("Digite a chave da mensagem: ");
+					    scanf("%d", &rot);
+
+						rodaMensagemAntHorario(mensagem, mensagemTamanho, rot);
+					
+						/*salvando a mensagem*/
+					    strcat(nomeArquivo, "_dec.txt"); //adiciona o formato do arquivo.
+					    arquivo = fopen(nomeArquivo, "w+t");
+					
+					    if(arquivo == NULL){ //verifica se o arquivo foi criado.
+					        nl(1);
+					        printf("Não foi possível abrir o arquivo.");
+					        nl(2);
+					        printf("Digite qualquer tecla para sair.");
+					        getch();
+					        return 1;
+					    }
+					
+					    fprintf(arquivo, "%s", mensagem);
+					
+					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
+					        nl(2);
+					        printf("Não foi possível fechar o arquivo.");
+					        nl(2);
+					        printf("Digite qualquer tecla para sair.");
+					        getch();
+					        return 1;
+					    }
+					
+					
+					    nl(1);
+					    printf("Operação concluída com sucesso.");
+					
+					    /**/
+										    
+					    nl(2);
+					    printf("Digite qualquer tecla para sair.");
+					    getch();
     			break;
     			
     		case '2': 	system("cls");
@@ -187,6 +271,7 @@ int main(){
 					        }
 					        c=fgetc(arquivo);
 					    }
+					    mensagem[mensagemTamanho] = '\0';
 					
 					    /**/
 					
@@ -231,8 +316,7 @@ int main(){
 					    printf("Operação concluída com sucesso.");
 					
 					    /**/
-					
-					    //fim do programa.
+										    
 					    nl(2);
 					    printf("Digite qualquer tecla para sair.");
 					    getch();
