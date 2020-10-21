@@ -246,13 +246,11 @@ int main(){
 		}	
 	}
 	/**/
-=======
 
     //fim do programa.
     nl(2);
     printf("Digite qualquer tecla para sair.");
     getch();
 
-	return 1;
->>>>>>> Stashed changes
+	return 0;
 }
