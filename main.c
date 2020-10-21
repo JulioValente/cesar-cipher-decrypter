@@ -145,7 +145,7 @@ int main(){
     char nomeArquivo[30];
     char temp[30];
     char mensagem[100];
-    int mensagemTamanho=0;
+    int mensagemTamanho;
     char c;
 	int rot=0;
 
@@ -176,6 +176,7 @@ int main(){
 					    /*armazena a mensagem do arquivo*/
 
 					    c = fgetc(arquivo);
+					    mensagemTamanho=0;
 					    while(c!=EOF){
 					        if(c >= 'A' && c <= 'z'){
 					            mensagem[mensagemTamanho] = toupper(c);
@@ -260,6 +261,7 @@ int main(){
 					    /*armazena a mensagem do arquivo*/
 
 					    c = fgetc(arquivo);
+					    mensagemTamanho=0;
 					    while(c!=EOF){
 					        if(c >= 'A' && c <= 'z'){
 					            mensagem[mensagemTamanho] = toupper(c);
