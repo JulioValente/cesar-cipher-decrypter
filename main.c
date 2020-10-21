@@ -56,11 +56,11 @@ int verificaMensagem(char *mensagem){
 	FILE *arquivo;
 	char palavra[50];
 	
-	arquivo = fopen("palavras.txt", "w+t");
+	arquivo = fopen("palavras.txt", "r");
 
 	fgets(palavra, 50, arquivo);
-	while(palavra != NULL || palavra != EOF){
-		if(strcmp(palavra, mensagem)){
+	while(palavra != NULL && palavra != EOF){		
+		if(!strcmp(palavra, mensagem)){
 			return 1;
 		}
 		fgets(palavra, 50, arquivo);
