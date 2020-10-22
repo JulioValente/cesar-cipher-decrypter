@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
+#include <string.h>
 
 void nl(int y){  //função para novas linhas.
     for(int i=0;i<y;i++){
@@ -52,7 +53,7 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
     }
 }
 
-int verificaMensagem(char *mensagem){
+int verificaMensagem(char *mensagem, int palavraTamanho){
 	FILE *arquivo;
 	char palavra[50];
 	int tamanho;
@@ -63,13 +64,13 @@ int verificaMensagem(char *mensagem){
 		tamanho = 0;
 
 		char *p;
-		for(p = palavra;*(p)!='\0' && *(p)!='\n';p++){			
+		for(p = palavra;*(p)!='\0' && *(p)!='\n';p++){
 			tamanho++;
 		}
-		
+
 		palavra[tamanho] = '\0';
 
-		if(!strcmp(palavra, mensagem)){
+		if(tamanho == palavraTamanho && !strcmp(palavra, mensagem)){
 			fclose(arquivo);
 			return 1;
 		}
@@ -83,34 +84,12 @@ int verificaMensagem(char *mensagem){
 void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
     int i;
     for(i=1;i<26;i++){
-        rodaMensagem(mensagem, tamanho, i);
+        rodaMensagem(mensagem, tamanho, 1);
 
-        if(verificaMensagem(mensagem)){
+        if(verificaMensagem(mensagem, tamanho)){
             break;
         }
     }
-}
-
-
-char decod(char *msg){
-	int i=0;
-
-	while(msg[i]!='\0'){
-
-		/*decodificando apenas letras*/
-		if(msg[i]>='A' && msg[i]<='Z'){
-			/*quando a letra voltando 3 casas é "menor" que A*/
-			if(msg[i]-3<'A'){
-				msg[i]=('X'-'A')+msg[i]; /*somando a "menor letra" possível com a distância entre a mesma e seu substituta*/
-			}else{ /*para as demais letras*/
-				msg[i]= msg[i] - 3;
-			}
-		}
-
-		i++;
-	}
-
-	return;
 }
 
 char menu(){
@@ -162,7 +141,7 @@ int main(){
 					        nl(1);
 					        printf("Não foi possível abrir o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -170,10 +149,10 @@ int main(){
 
 					    /*armazena a mensagem do arquivo*/
 
-					    c = fgetc(arquivo);
+					    c = toupper(fgetc(arquivo));
 					    mensagemTamanho=0;
 					    while(c!=EOF){
-					        if(c >= 'A' && c <= 'z'){
+					        if(c >= 'A' && c <= 'Z'){
 					            mensagem[mensagemTamanho] = toupper(c);
 					            mensagemTamanho++;
 					        }
@@ -187,7 +166,7 @@ int main(){
 					        nl(2);
 					        printf("Não foi possível fechar o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -207,7 +186,7 @@ int main(){
 					        nl(1);
 					        printf("Não foi possível abrir o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -218,7 +197,7 @@ int main(){
 					        nl(2);
 					        printf("Não foi possível fechar o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -230,7 +209,7 @@ int main(){
 					    /**/
 
 					    nl(2);
-					    printf("Digite qualquer tecla para sair.");
+					    printf("Digite qualquer tecla para continuar.");
 					    getch();
     			break;
 
@@ -247,7 +226,7 @@ int main(){
 					        nl(1);
 					        printf("Não foi possível abrir o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -272,7 +251,7 @@ int main(){
 					        nl(2);
 					        printf("Não foi possível fechar o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -285,26 +264,22 @@ int main(){
 					        nl(1);
 					        printf("Não foi possível abrir o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
 
-					    //cria uma varíavel para a segunda decodificação e atribui pra ela a mensagem original
-					    char mensagem2[100];
-					    strcpy(mensagem2, mensagem);
-
-					   	decod(mensagem); //primeira possível decodificação
+					   	decifraMensagem(mensagem, mensagemTamanho); //primeira possível decodificação
 					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
 
-					    decifraMensagem(mensagem2, mensagemTamanho); //segunda possível decodificação
-					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem2);
+					    decifraMensagem(mensagem, mensagemTamanho); //segunda possível decodificação
+					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem);
 
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
 					        printf("Não foi possível fechar o arquivo.");
 					        nl(2);
-					        printf("Digite qualquer tecla para sair.");
+					        printf("Digite qualquer tecla para continuar.");
 					        getch();
 					        return 1;
 					    }
@@ -316,7 +291,7 @@ int main(){
 					    /**/
 
 					    nl(2);
-					    printf("Digite qualquer tecla para sair.");
+					    printf("Digite qualquer tecla para continuar.");
 					    getch();
     			break;
 
@@ -331,7 +306,7 @@ int main(){
 
     //fim do programa.
     nl(2);
-    printf("Digite qualquer tecla para sair.");
+    printf("Digite qualquer tecla para continuar.");
     getch();
 
 	return 0;
