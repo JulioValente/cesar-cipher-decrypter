@@ -81,15 +81,19 @@ int verificaMensagem(char *mensagem, int palavraTamanho){
 
 }
 
-void decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
+int decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
     int i;
     for(i=1;i<26;i++){
         rodaMensagem(mensagem, tamanho, 1);
 
         if(verificaMensagem(mensagem, tamanho)){
-            break;
+            return 1;
         }
     }
+
+    mensagem[0] = '\0';
+
+    return 0;
 }
 
 char menu(){
