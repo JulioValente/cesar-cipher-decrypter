@@ -52,26 +52,21 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
     }
 }
 
-void CAPSLOCK(char *string){
-	for(char *p = string; *(p)!='\0';p++){
-		*p = toupper(*p);
-	}
-}
-
 int verificaMensagem(char *mensagem){
 	FILE *arquivo;
 	char palavra[50];
 	int tamanho;
 
-	arquivo = fopen("palavras.txt", "r");
+	arquivo = fopen("banco de dados.txt", "r");
 
 	while(fgets(palavra, 50, arquivo) != NULL){
 		tamanho = 0;
-		char *p = palavra;
-		for(;*(p)!='\0' && *(p)!='\n';p++){
-			*p = toupper(*p);
+
+		char *p;
+		for(p = palavra;*(p)!='\0' && *(p)!='\n';p++){			
 			tamanho++;
 		}
+		
 		palavra[tamanho] = '\0';
 
 		if(!strcmp(palavra, mensagem)){
