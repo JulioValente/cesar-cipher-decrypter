@@ -53,40 +53,52 @@ void rodaMensagemAntHorario(char *mensagem, int tamanho, int numRotacoes){ //fun
     }
 }
 
-int verificaMensagem(char *mensagem, int palavraTamanho){
+int verificaMensagem(char *mensagem, int palavraTamanho, int contMax){
 	FILE *arquivo;
 	char palavra[50];
 	int tamanho;
 
-	arquivo = fopen("banco de dados.txt", "r");
+    if(contMax > 0){
+        arquivo = fopen("banco de dados.txt", "r");
 
-	while(fgets(palavra, 50, arquivo) != NULL){
-		tamanho = 0;
+        while(fgets(palavra, 50, arquivo) != NULL){
+            tamanho = 0;
 
-		char *p;
-		for(p = palavra;*(p)!='\0' && *(p)!='\n';p++){
-			tamanho++;
-		}
+            char *p;
+            for(p = palavra;*(p)!='\0' && *(p)!='\n';p++){
+                tamanho++;
+            }
 
-		palavra[tamanho] = '\0';
+            palavra[tamanho] = '\0';
 
-		if(tamanho == palavraTamanho && !strcmp(palavra, mensagem)){
-			fclose(arquivo);
-			return 1;
-		}
-	}
+            if(tamanho <= palavraTamanho && !strncmp(palavra, mensagem, tamanho)){
 
-	fclose(arquivo);
-	return 0;
+                if(tamanho < palavraTamanho){ //mais de 1 palavra
+                    if(verificaMensagem((mensagem + tamanho), palavraTamanho - tamanho, contMax-1)){
+                        fclose(arquivo);
+                        return 1;
+                    }
+                }else{ //somente uma palavra
+                    fclose(arquivo);
+                    return 1;
+                }
 
+            }
+        }
+
+        fclose(arquivo);
+        return 0;
+    }else{
+        return 0;
+    }
 }
 
-int decifraMensagem(char *mensagem, int tamanho){ //decifra a mensagem automaticamente.
+int decifraMensagem(char *mensagem, int tamanho, int nPalavras){ //decifra a mensagem automaticamente com o parâmetro de número máximo de palavras.
     int i;
     for(i=1;i<26;i++){
         rodaMensagem(mensagem, tamanho, 1);
 
-        if(verificaMensagem(mensagem, tamanho)){
+        if(verificaMensagem(mensagem, tamanho, nPalavras)){
             return 1;
         }
     }
@@ -124,6 +136,7 @@ int main(){
     char temp[30];
     char mensagem[100];
     int mensagemTamanho;
+    int palavrasMax;
     char c;
 	int rot=0;
 
@@ -222,6 +235,11 @@ int main(){
 					    nl(2);
 						scanf("%s", nomeArquivo);
 
+                        nl(1);
+						printf("Digite o número máximo de palavras: ");
+					    nl(2);
+						scanf("%d", &palavrasMax);
+
 						strcpy(temp, nomeArquivo); //copia o nome do arquivo para uma variável temporária.
 					    strcat(temp, ".txt"); //adiciona o formato do arquivo.
 					    arquivo = fopen(temp, "r");
@@ -273,11 +291,17 @@ int main(){
 					        return 1;
 					    }
 
-					   	decifraMensagem(mensagem, mensagemTamanho); //primeira possível decodificação
+                        nl(1);
+                        printf("Decodificando...");
+
+					   	rodaMensagemAntHorario(mensagem, mensagemTamanho, 3); //primeira possível decodificação
 					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
 
-					    decifraMensagem(mensagem, mensagemTamanho); //segunda possível decodificação
+					    decifraMensagem(mensagem, mensagemTamanho, palavrasMax); //segunda possível decodificação
 					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem);
+
+					   	decifraMensagem(mensagem, mensagemTamanho, palavrasMax); //terceira possível decodificação
+					    fprintf(arquivo, "\n\nTerceira possível mensagem: %s", mensagem);
 
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
@@ -289,7 +313,7 @@ int main(){
 					    }
 
 
-					    nl(1);
+					    nl(2);
 					    printf("Operação concluída com sucesso.");
 
 					    /**/
