@@ -89,7 +89,7 @@ int verificaMensagem(char *mensagem, int palavraTamanho, int contMax){
         fclose(arquivo);
         return 0;
     }else{
-        return 0;
+        return 1;
     }
 }
 
