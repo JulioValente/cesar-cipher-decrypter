@@ -134,7 +134,7 @@ int main(){
     FILE *arquivo;
     char nomeArquivo[30];
     char temp[30];
-    char mensagem[100];
+    char mensagem[300];
     int mensagemTamanho;
     int palavrasMax;
     char c;
