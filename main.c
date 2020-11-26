@@ -135,10 +135,14 @@ int main(){
     char nomeArquivo[30];
     char temp[30];
     char mensagem[300];
+    char mensagemDec[3][300];
     int mensagemTamanho;
     int palavrasMax;
     char c;
 	int rot=0;
+	int menEscolhida;
+	int escolhaCoerente=0;
+	int i;
 
     setlocale(LC_ALL, "");
 
@@ -278,7 +282,47 @@ int main(){
 					        return 1;
 					    }
 
-						/*salvando a mensagem*/
+
+
+                        nl(1);
+                        printf("Decodificando...");
+
+                        //primeira possível decodificação
+					   	rodaMensagemAntHorario(mensagem, mensagemTamanho, 3);
+					   	strcpy(mensagemDec[0], mensagem);
+
+                        //segunda possível decodificação
+					    decifraMensagem(mensagem, mensagemTamanho, palavrasMax);
+					   	strcpy(mensagemDec[1], mensagem);
+
+                        //terceira possível decodificação
+					   	decifraMensagem(mensagem, mensagemTamanho, palavrasMax);
+					   	strcpy(mensagemDec[2], mensagem);
+
+					    system("cls");
+
+					    while(!escolhaCoerente){
+                            for(i=0;i<3;i++){
+                                printf("%d° possível mensagem: %s", i+1, mensagemDec[i]);
+                                nl(2);
+                            }
+
+                            printf("Qual destas mensagens (1, 2 ou 3) você deseja salvar?");
+                            nl(1);
+                            scanf("%d", &menEscolhida);
+
+                            if(menEscolhida >= 1 && menEscolhida <= 3){
+                                escolhaCoerente = 1;
+                            }else{
+                                escolhaCoerente = 0;
+
+                                system("cls");
+                                printf("Escolha inválida.");
+                                nl(2);
+                            }
+					    }
+
+					    /*salvando a mensagem*/
 					    strcat(nomeArquivo, "_dec.txt"); //adiciona o formato do arquivo.
 					    arquivo = fopen(nomeArquivo, "w+t");
 
@@ -291,17 +335,7 @@ int main(){
 					        return 1;
 					    }
 
-                        nl(1);
-                        printf("Decodificando...");
-
-					   	rodaMensagemAntHorario(mensagem, mensagemTamanho, 3); //primeira possível decodificação
-					    fprintf(arquivo, "Primeira possível mensagem: %s", mensagem);
-
-					    decifraMensagem(mensagem, mensagemTamanho, palavrasMax); //segunda possível decodificação
-					    fprintf(arquivo, "\n\nSegunda possível mensagem: %s", mensagem);
-
-					   	decifraMensagem(mensagem, mensagemTamanho, palavrasMax); //terceira possível decodificação
-					    fprintf(arquivo, "\n\nTerceira possível mensagem: %s", mensagem);
+					    fprintf(arquivo, "%s", mensagemDec[menEscolhida-1]);
 
 					    if(fclose(arquivo) == EOF){ //verifica se o arquivo foi fechado.
 					        nl(2);
@@ -313,8 +347,8 @@ int main(){
 					    }
 
 
-					    nl(2);
-					    printf("Operação concluída com sucesso.");
+					    nl(1);
+					    printf("Mensagem salva com sucesso.");
 
 					    /**/
 
