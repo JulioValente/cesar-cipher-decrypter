@@ -240,7 +240,7 @@ int main(){
 						scanf("%s", nomeArquivo);
 
                         nl(1);
-						printf("Digite o número máximo de palavras: ");
+						printf("Digite o número de palavras a serem combinadas para realizar a decodificação: ");
 					    nl(2);
 						scanf("%d", &palavrasMax);
 
